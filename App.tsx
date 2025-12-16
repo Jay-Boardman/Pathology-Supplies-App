@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppView } from './types';
 import { Scanner } from './components/Scanner';
 import { Tracking } from './components/Tracking';
@@ -8,6 +8,11 @@ import { Menu, X, BarChart2, Scan, Database } from 'lucide-react';
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<AppView>(AppView.SCANNER);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Scroll to top whenever the view changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentView]);
 
   const navItems = [
     { id: AppView.SCANNER, label: 'Scan & Order', icon: <Scan size={20} /> },
@@ -50,7 +55,7 @@ const App: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden p-2 rounded hover:bg-blue-700"
+            className="md:hidden p-2 rounded hover:bg-blue-700 active:bg-blue-800 transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X /> : <Menu />}
@@ -60,29 +65,39 @@ const App: React.FC = () => {
 
       {/* Mobile Nav Drawer */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-nhs-blue pb-4 px-4 shadow-lg">
-            {navItems.map(item => (
-                <button
-                    key={item.id}
-                    onClick={() => {
-                        setCurrentView(item.id);
-                        setIsMobileMenuOpen(false);
-                    }}
-                    className={`w-full text-left px-4 py-3 rounded-md text-base font-medium flex items-center gap-3 mt-1
-                        ${currentView === item.id 
-                            ? 'bg-white text-nhs-blue' 
-                            : 'text-white hover:bg-blue-700'
-                        }`}
-                >
-                    {item.icon}
-                    {item.label}
-                </button>
-            ))}
-        </div>
+        <>
+            {/* Backdrop to close menu when clicking outside */}
+            <div 
+                className="fixed inset-0 z-40 bg-black/50 md:hidden"
+                onClick={() => setIsMobileMenuOpen(false)} 
+            />
+            {/* Menu Content */}
+            <div className="md:hidden fixed top-16 left-0 right-0 bg-nhs-blue pb-6 px-4 shadow-xl z-50 border-t border-blue-600 animate-in slide-in-from-top-2 duration-200">
+                <div className="space-y-1 pt-2">
+                    {navItems.map(item => (
+                        <button
+                            key={item.id}
+                            onClick={() => {
+                                setCurrentView(item.id);
+                                setIsMobileMenuOpen(false);
+                            }}
+                            className={`w-full text-left px-4 py-4 rounded-xl text-base font-medium flex items-center gap-3 transition-colors
+                                ${currentView === item.id 
+                                    ? 'bg-white text-nhs-blue shadow-sm' 
+                                    : 'text-white hover:bg-blue-700 border border-transparent'
+                                }`}
+                        >
+                            {item.icon}
+                            {item.label}
+                        </button>
+                    ))}
+                </div>
+            </div>
+        </>
       )}
 
       {/* Main Content */}
-      <main className="flex-1 py-8 px-4 sm:px-6">
+      <main className="flex-1 py-6 px-4 sm:px-6 relative z-0">
         <div className="max-w-7xl mx-auto">
             {currentView === AppView.SCANNER && <Scanner />}
             {currentView === AppView.TRACKING && <Tracking />}
