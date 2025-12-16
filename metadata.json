@@ -1,0 +1,5 @@
+{
+  "name": "NHS Supply Track",
+  "description": "A modern, sleek inventory management system for scanning orders via Bluetooth and tracking historical data.",
+  "requestFramePermissions": []
+}

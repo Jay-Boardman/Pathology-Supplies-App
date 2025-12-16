@@ -1,0 +1,8 @@
+/* 
+  We are using the Tailwind CDN in index.html for reliable styling.
+*/
+body {
+  background-color: #F0F4F5;
+  -webkit-tap-highlight-color: transparent;
+  font-family: 'Inter', sans-serif;
+}
