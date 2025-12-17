@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AppView } from './types';
+import { AppView, CartItem } from './types';
 import { Scanner } from './components/Scanner';
 import { Tracking } from './components/Tracking';
 import { Catalogue } from './components/Catalogue';
@@ -8,6 +8,9 @@ import { Menu, X, BarChart2, Scan, Database } from 'lucide-react';
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<AppView>(AppView.SCANNER);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  // Cart state lifted to App level to persist between tab switches
+  const [cart, setCart] = useState<CartItem[]>([]);
 
   // Scroll to top whenever the view changes
   useEffect(() => {
@@ -99,7 +102,7 @@ const App: React.FC = () => {
       {/* Main Content */}
       <main className="flex-1 py-6 px-4 sm:px-6 relative z-0">
         <div className="max-w-7xl mx-auto">
-            {currentView === AppView.SCANNER && <Scanner />}
+            {currentView === AppView.SCANNER && <Scanner cart={cart} setCart={setCart} />}
             {currentView === AppView.TRACKING && <Tracking />}
             {currentView === AppView.CATALOGUE && <Catalogue />}
         </div>

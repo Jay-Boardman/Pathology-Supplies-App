@@ -110,9 +110,13 @@ const SwipeableCartItem: React.FC<SwipeableItemProps> = ({ item, onEdit, onDelet
   );
 };
 
-export const Scanner: React.FC = () => {
+interface ScannerProps {
+  cart: CartItem[];
+  setCart: React.Dispatch<React.SetStateAction<CartItem[]>>;
+}
+
+export const Scanner: React.FC<ScannerProps> = ({ cart, setCart }) => {
   const [inputCode, setInputCode] = useState('');
-  const [cart, setCart] = useState<CartItem[]>([]);
   const [catalogue, setCatalogue] = useState<Product[]>([]);
   
   // Pending State for "Ask Quantity" flow
@@ -362,7 +366,7 @@ export const Scanner: React.FC = () => {
 
             {/* Dropdown Results */}
             {searchQuery && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-xl z-20 max-h-60 overflow-y-auto">
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-xl z-50 max-h-60 overflow-y-auto">
                     {filteredProducts.length > 0 ? (
                         filteredProducts.map(p => (
                             <button
