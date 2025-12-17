@@ -111,7 +111,7 @@ const App: React.FC = () => {
       {/* Footer */}
       <footer className="bg-nhs-dark-grey text-white py-6 mt-auto">
         <div className="max-w-7xl mx-auto px-4 text-center text-sm">
-            <p>&copy; {new Date().getFullYear()} Supply Chain Tracker. Internal Use Only.</p>
+            <p>&copy; 2025 James Boardman. All Rights Reserved.</p>
         </div>
       </footer>
     </div>
